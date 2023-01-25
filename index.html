@@ -1,16 +1,23 @@
 <!DOCTYPE html>
 <head>
+    <script src="https://code.jquery.com/jquery-3.6.3.min.js"
+   		  integrity="sha256-pvPw+upLPUjgMXY0G+8O0xUf+/Im1MZjXxxgOcBQBXU="
+   		  crossorigin="anonymous"></script>
     <link href="style.css" type="text/css" rel="stylesheet">
+    
 </head>
 <body>
     <div id="pokemon">
-        <img src="https://assets.pokemon.com/assets/cms2/img/pokedex/full/001.png" id="pokemonImg">
+        <img src="" id="pokemonImg">
     </div>
     <div id="container">
-        <button type="button">Pikachu</button>
-        <button type="button">Schiggy</button>
-        <button type="button">Mauzi</button>
-        <button type="button">Bisasam</button>
+        <div id="outline">
+            <button type="button" class="button" id="b1" onclick="checkAnswer(this.id)">Pikachu</button>
+            <button type="button" class="button" id="b2" onclick="checkAnswer(this.id)">Schiggy</button>
+            <button type="button" class="button" id="b3" onclick="checkAnswer(this.id)">Mauzi</button>
+            <button type="button" class="button" id="b4" onclick="checkAnswer(this.id)">Bisasam</button>
+        </div>
     </div>
-
+    <script src="main.js"></script>
 </body>
+

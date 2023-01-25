@@ -6,10 +6,10 @@ body {
     background-position: bottom;
     background-repeat: no-repeat;
     margin: 0px;
+    overflow: hidden;
 }
 #pokemon {
     position: absolute;
-    border: 2px black solid;
     width: 30%;
     height: 55%;
     top: 60px;
@@ -17,11 +17,30 @@ body {
     display: flex;
     justify-content: center;
 }
-#pokemonImg {
-    border: 2px black solid;
-}
 #container {
     position: absolute;
     bottom: 0px;
-    border: solid black 2px;
+    width: 100%;
+    justify-content: center;
+    text-align: center;
+    display: inline-block;
+    padding: 50px 0;
 }
+#outline {
+    margin: auto;
+    width: 90%;
+    padding: 0%;
+}
+.button {
+    width: 49%;
+    margin: 5px;
+    padding: 15px;
+    font-size: larger;
+    border-radius: 10px;
+    opacity: 85%;
+    border: 3px rgb(117, 117, 117) solid;
+}
+/*
+*{
+    outline: #000 solid 2px ;
+} */
