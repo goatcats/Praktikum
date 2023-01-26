@@ -31,21 +31,26 @@ function fetchName(id) {
             return data["names"][5]["name"];
         })
 
-}
+};
 
-let fetchPokeNames = function (num) { // timeout?, promise?, .done?
+let fetchPokeNames = function (num) { // works?
     for (let i = 0; i < num; i++) {
         fetchName(Math.floor(Math.random() * 893))
             .then((value) => {
                 randNames.push(value);
+                console.log("generated: "+ randNames);
+                // array has all values
             });
     }
 };
+
 
 let setButtons = function () {
     fetchName(pokeId)
         .then((value) => {
             pokeName = value;
+            console.log("received: "+ randNames);
+            // array misses values
         })
         .then((x) => {
             for (let i = 0; i < 4; i++) {
@@ -93,8 +98,9 @@ function setup() {
     let pokeIdZeros = addZeros(pokeId);
     let pokeImg = `https://assets.pokemon.com/assets/cms2/img/pokedex/full/${pokeIdZeros}.png`;
     document.getElementById("pokemonImg").src = pokeImg;
-    fetchPokeNames(4);
-    setButtons() // defines pokeName
+    fetchPokeNames(4); // works
+    // console.log(randNames); returnes empty array
+    setButtons() // problem
 }
 
 setup()
