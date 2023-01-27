@@ -58,12 +58,21 @@ let fetchPokeNames = function (num) { // works?
 */
 function setButtons() {
     for (let i = 0; i < 4; i++) {
+        document.getElementsByTagName("button")[i].disabled = false;
         document.getElementsByTagName("button")[i].innerHTML = randNames[i];
     }
     document.getElementsByTagName("button")[Math.floor(Math.random() * 4)].innerHTML = pokeName;
 }
 
-
+/*
+1. The function is called when a button is clicked.
+2. Reveals the pokemon.
+3. Checks if the clicked button is the correct answer.
+4. If the answer is correct, the clicked button is highlighted green and a fitting audio is played.
+5. The points are increased by 1 and the highscore is set accordingly and saved in a cookie.
+6. If the answer is incorrect, the points are reset to 0, the correct button is highlighted green and the rest are red.
+7. Calls the setup function after a 2 second delay to start the next round.
+ */
 let checkAnswer = function (clicked_id) {
     document.getElementById("pokemonImg").style.filter = "brightness(100%)";
     if (document.getElementById(clicked_id).innerHTML === pokeName) {
@@ -92,6 +101,13 @@ let checkAnswer = function (clicked_id) {
     }, 2000)
 };
 
+/**
+ 1. Resets the color of the buttons and hides the pokemon.
+ 2. Sets the variables to their starting values.
+ 3. Loads the hidden pokemon image.
+ 4. Fetches and saves the necessary pokemon names.
+ 5. Calls the function for setting the buttons after a delay of 0.5 seconds
+ */
 function setup() {
     for (let i = 0; i < 4; i++) { document.getElementById(`b${i + 1}`).style.backgroundColor = null };
     document.getElementById("pokemonImg").style.filter = "brightness(0%)";
@@ -103,17 +119,22 @@ function setup() {
     let pokeIdZeros = addZeros(pokeId);
     let pokeImg = `https://assets.pokemon.com/assets/cms2/img/pokedex/full/${pokeIdZeros}.png`;
     document.getElementById("pokemonImg").src = pokeImg;
-    fetchPokeNames(4) // works
+    fetchPokeNames(4)
+    for (let i=0; i<4; i++) {
+        document.getElementsByTagName("button")[i].innerHTML = "loading...";
+        document.getElementsByTagName("button")[i].disabled = true;
+    }
     setTimeout(function() {
         setButtons();
-    }, 500)
+    }, 1000)
     
 }
-
+// saves a name value pair in a cookie
 function setCookie(cookieName, cookieValue) {
-    document.cookie = `${cookieName}=${cookieValue};`;
+    document.cookie = `${cookieName}=${cookieValue}; expires=Thu, 18 Dec 2025 12:00:00 UTC;`;
 }
 
+// Returns the value of a cookie from the name passed as a parameter.
 function getCookie(cookieName) {
     cookieName += "=";
     let ca = document.cookie.split(';');
@@ -129,9 +150,19 @@ function getCookie(cookieName) {
     return "";
 }
 
+// This code is executed when reloading the page:
+
+// Calls the setup function to start loading the game.
 setup()
+
+// Plays the "who's that pokémon" audio at the start of the game.
+audioStart.play();
+
+/*
+1. Sets the highscore to the value stored in the cookies.
+2. If the cookies are empty, set the highscore to the declared value (0).
+*/
 highscore = getCookie("highscore");
 if (highscore !== "") {
     document.getElementById("highscore").innerHTML = `highscore: ${highscore}`;
-}
-audioStart.play();
+};

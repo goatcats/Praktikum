@@ -1,3 +1,7 @@
+@font-face {
+    font-family: pokeFont;
+    src: url(assets/PocketMonk-15ze.ttf);
+ }
 body {
     background-image: url("assets/background.webp");
     width: 100vw;
@@ -12,46 +16,59 @@ body {
     position: absolute;
     width: 30%;
     height: 55%;
-    top: 160px;
-    left: 275px;
+    top: 75px;
+    left: 300px;
     display: flex;
     justify-content: center;
 }
 #container {
     position: absolute;
-    bottom: 25px;
-    width: 100%;
+    bottom: 50px;
+    width: 85%;
+    height: 180px;
+    left: 140px;
     justify-content: center;
     text-align: center;
     display: inline-block;
     padding: 50px 0;
+    border-radius: 20px;
+    background-color: rgb(41, 41, 41);
 }
 #outline {
     margin: auto;
+    margin-top: 2px;
     width: 90%;
     padding: 0%;
 }
 .button {
-    width: 750px;
-    height: 70px;
+    width: 720px;
+    height: 80px;
     margin: 5px;
     padding: 15px;
-    font-size: larger;
+    font-size: 30px;
+    letter-spacing: 1px;
     border-radius: 10px;
-    opacity: 85%;
+    opacity: 100%;
     border: 3px rgb(117, 117, 117) solid;
+    font-family: "pokeFont", sans-serif;
+    transition: all 0.2s ease-in-out;
+}
+.button:disabled {
+    background-color: #000;
+    color: #fff;
+}
+.button:hover {
+    transform: scale(1.01);
+    background-color: rgb(161, 226, 170);
 }
 #pokemonImg {
     filter: brightness(0%);
 }
 .counter {
     position: absolute;
-    /*
-    top: 40px;
-    */
     left: 50px;
     font-size: 50px;
-    font-family: "Anton", sans-serif;
+    font-family: "pokeFont", sans-serif;
 }
 #points {
     top:10px;
@@ -59,7 +76,3 @@ body {
 #highscore {
     top: 70px;
 }
-/*
-*{
-    outline: #000 solid 2px ;
-} */
