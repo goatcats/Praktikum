@@ -1,4 +1,4 @@
-// global variables
+// global variable declerations
 let pokeId;
 let audioStart;
 var pokeName;
@@ -7,7 +7,7 @@ let randNames;
 let points = 0;
 let highscore = 0;
 
-// functions
+// function definiitions
 let addZeros = function (pokeId) {
     if (pokeId < 10) {
         return `00${pokeId}`;
@@ -62,6 +62,8 @@ let checkAnswer = function (clicked_id) {
         points += 1;
         if (highscore < points) {
             highscore = points;
+            document.getElementById("highscore").innerHTML = `highscore: ${highscore}`;
+            setCookie("highscore", highscore);
         }
     } else {
         points = 0;
@@ -74,7 +76,6 @@ let checkAnswer = function (clicked_id) {
             }
         }
     }
-    document.getElementById("highscore").innerHTML = `highscore: ${highscore}`;
     document.getElementById("points").innerHTML = `points: ${points}`;
     console.log("waiting...");
     setTimeout(function () {
@@ -96,5 +97,28 @@ function setup() {
     fetchPokeNames(4) // works
 }
 
+function setCookie(cookieName, cookieValue) {
+    document.cookie = `${cookieName}=${cookieValue};`;
+}
+
+function getCookie(cookieName) {
+    cookieName += "=";
+    let ca = document.cookie.split(';');
+    for(let i = 0; i < ca.length; i++) {
+        let c = ca[i];
+        while (c.charAt(0) == ' ') {
+            c = c.substring(1);
+        }
+        if (c.indexOf(cookieName) == 0) {
+            return c.substring(cookieName.length, c.length);
+        }
+    }
+    return "";
+}
+
 setup()
+highscore = getCookie("highscore");
+if (highscore !== "") {
+    document.getElementById("highscore").innerHTML = `highscore: ${highscore}`;
+}
 audioStart.play();
