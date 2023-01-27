@@ -5,6 +5,7 @@ var pokeName;
 let audioCorrect;
 let randNames;
 let points = 0;
+let highscore = 0;
 
 // functions
 let addZeros = function (pokeId) {
@@ -18,11 +19,6 @@ let addZeros = function (pokeId) {
 };
 
 function fetchName(id) {
-    /*
-    $.getJSON(`https://pokeapi.co/api/v2/pokemon-species/${id}`, function (json) {
-        return json["names"][5]["name"];
-    });
-    */
     return fetch(`https://pokeapi.co/api/v2/pokemon-species/${id}`)
         .then((response) => {
             return response.json();
@@ -33,31 +29,27 @@ function fetchName(id) {
 
 };
 
-let fetchPokeNames = function (num) { // works?
-    for (let i = 0; i < num; i++) {
-        fetchName(Math.floor(Math.random() * 893))
-            .then((value) => {
-                randNames.push(value);
-                console.log("generated: "+ randNames);
-                // array has all values
-            });
-    }
-};
-
-
-let setButtons = function () {
-    fetchName(pokeId)
-        .then((value) => {
-            pokeName = value;
-            console.log("received: "+ randNames);
-            // array misses values
-        })
-        .then((x) => {
-            for (let i = 0; i < 4; i++) {
-                document.getElementsByTagName("button")[i].innerHTML = randNames[i];
-            }
-            document.getElementsByTagName("button")[Math.floor(Math.random() * 4)].innerHTML = pokeName;
-        })
+let fetchPokeNames = function (num) { // works? 
+        for (let i = 0; i < num; i++) {
+            fetchName(Math.floor(Math.random() * 893))
+                .then((value) => {
+                    randNames.push(value);
+                    console.log("generated: "+ randNames);
+                })
+                .then(() => {
+                    fetchName(pokeId)
+                        .then((value) => {
+                            pokeName = value;
+                        })
+                        .then(() => {
+                            console.log("received: "+ randNames);
+                            for (let i = 0; i < 4; i++) {
+                                document.getElementsByTagName("button")[i].innerHTML = randNames[i];
+                            }
+                            document.getElementsByTagName("button")[Math.floor(Math.random() * 4)].innerHTML = pokeName;
+                        }) 
+                })
+        }
 };
 
 let checkAnswer = function (clicked_id) {
@@ -68,6 +60,9 @@ let checkAnswer = function (clicked_id) {
         console.log("correct sound");
         audioCorrect.play();
         points += 1;
+        if (highscore < points) {
+            highscore = points;
+        }
     } else {
         points = 0;
         let buttons = document.getElementsByClassName("button");
@@ -79,7 +74,8 @@ let checkAnswer = function (clicked_id) {
             }
         }
     }
-    document.getElementById("counter").innerHTML = `points: ${points}`;
+    document.getElementById("highscore").innerHTML = `highscore: ${highscore}`;
+    document.getElementById("points").innerHTML = `points: ${points}`;
     console.log("waiting...");
     setTimeout(function () {
         setup();
@@ -94,19 +90,11 @@ function setup() {
     pokeName = "";
     audioCorrect = new Audio("assets/correct.mp3");
     randNames = [];
-    audioStart.play();
     let pokeIdZeros = addZeros(pokeId);
     let pokeImg = `https://assets.pokemon.com/assets/cms2/img/pokedex/full/${pokeIdZeros}.png`;
     document.getElementById("pokemonImg").src = pokeImg;
-    fetchPokeNames(4); // works
-    // console.log(randNames); returnes empty array
-    setButtons() // problem
+    fetchPokeNames(4) // works
 }
 
 setup()
-
-
-
-
-
-// checkAnswer() is called when clicked
+audioStart.play();

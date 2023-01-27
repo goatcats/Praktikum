@@ -9,10 +9,10 @@ body {
     overflow: hidden;
 }
 #pokemon {
-    position: fixed;
+    position: absolute;
     width: 30%;
     height: 55%;
-    top: 60px;
+    top: 160px;
     left: 275px;
     display: flex;
     justify-content: center;
@@ -44,14 +44,21 @@ body {
 #pokemonImg {
     filter: brightness(0%);
 }
-#counter {
+.counter {
     position: absolute;
+    /*
     top: 40px;
+    */
     left: 50px;
     font-size: 50px;
     font-family: "Anton", sans-serif;
 }
-
+#points {
+    top:10px;
+}
+#highscore {
+    top: 70px;
+}
 /*
 *{
     outline: #000 solid 2px ;
