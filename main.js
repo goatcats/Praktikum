@@ -7,6 +7,7 @@ let randNames;
 let points = 0;
 let highscore = 0;
 
+
 // function definiitions
 let addZeros = function (pokeId) {
     if (pokeId < 10) {
@@ -18,6 +19,11 @@ let addZeros = function (pokeId) {
     }
 };
 
+/*
+1. Requests data from the Poke-API with the fetch method.
+2. Converts the data to an object using the response.json() method. 
+3. Returns the name of the pokemon.
+*/
 function fetchName(id) {
     return fetch(`https://pokeapi.co/api/v2/pokemon-species/${id}`)
         .then((response) => {
@@ -26,38 +32,42 @@ function fetchName(id) {
         .then((data) => {
             return data["names"][5]["name"];
         })
-
 };
 
-let fetchPokeNames = function (num) { // works? 
-        for (let i = 0; i < num; i++) {
-            fetchName(Math.floor(Math.random() * 893))
-                .then((value) => {
-                    randNames.push(value);
-                    console.log("generated: "+ randNames);
-                })
-                .then(() => {
-                    fetchName(pokeId)
-                        .then((value) => {
-                            pokeName = value;
-                        })
-                        .then(() => {
-                            console.log("received: "+ randNames);
-                            for (let i = 0; i < 4; i++) {
-                                document.getElementsByTagName("button")[i].innerHTML = randNames[i];
-                            }
-                            document.getElementsByTagName("button")[Math.floor(Math.random() * 4)].innerHTML = pokeName;
-                        }) 
-                })
-        }
+/*
+1. Fetches the name of the current pokemon with the id.
+2. Creates random ids and fetches their corresponding names.
+3. Adds the random names in an array and the current name in an empty variable.
+*/
+let fetchPokeNames = function (num) { // works?
+    fetchName(pokeId)
+        .then((value) => {
+            pokeName = value;
+        })
+    for (let i = 0; i < num; i++) {
+        fetchName(Math.floor(Math.random() * 893))
+            .then((value) => {
+                randNames.push(value);
+            })
+    }
 };
+
+/*
+1. Modifies the inner HTML of the buttons to disply the random names.
+2. One button chosen at random is overwritten with the current pokemon name.
+*/
+function setButtons() {
+    for (let i = 0; i < 4; i++) {
+        document.getElementsByTagName("button")[i].innerHTML = randNames[i];
+    }
+    document.getElementsByTagName("button")[Math.floor(Math.random() * 4)].innerHTML = pokeName;
+}
+
 
 let checkAnswer = function (clicked_id) {
-    console.log(clicked_id);
     document.getElementById("pokemonImg").style.filter = "brightness(100%)";
     if (document.getElementById(clicked_id).innerHTML === pokeName) {
         document.getElementById(clicked_id).style.backgroundColor = "green";
-        console.log("correct sound");
         audioCorrect.play();
         points += 1;
         if (highscore < points) {
@@ -77,7 +87,6 @@ let checkAnswer = function (clicked_id) {
         }
     }
     document.getElementById("points").innerHTML = `points: ${points}`;
-    console.log("waiting...");
     setTimeout(function () {
         setup();
     }, 2000)
@@ -95,6 +104,10 @@ function setup() {
     let pokeImg = `https://assets.pokemon.com/assets/cms2/img/pokedex/full/${pokeIdZeros}.png`;
     document.getElementById("pokemonImg").src = pokeImg;
     fetchPokeNames(4) // works
+    setTimeout(function() {
+        setButtons();
+    }, 500)
+    
 }
 
 function setCookie(cookieName, cookieValue) {
